@@ -17,12 +17,15 @@ class AuthController extends Controller
 {
     $validatedData = $request->validate([
         'username' => ['required', 'unique:users', 'regex:/^\S*$/'], // No spaces allowed
-        'email' => ['required', 'email', 'unique:users'],
+        'email' => ['required', 'email', 'unique:users', 'regex:/^(?=.{1,256}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/'],
+
+
         'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
         'password_confirmation' => ['required', 'same:password'], // Ensure password confirmation matches
     ], [
         'username.regex' => 'Username must not contain spaces.',
-        'password.regex' => 'contain at least one uppercase letter, one number, and one special character.',
+        'password.regex' => ' contain at least one uppercase letter, one number, and one special character.',
+        'email.regex' => 'Invalid email address.',
     ]);
 
     $user = new User();
