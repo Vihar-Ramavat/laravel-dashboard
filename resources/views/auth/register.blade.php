@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex justify-center items-center h-screen">
         <div class="w-full max-w-md">
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="{{ route('register') }}">
+            <form id="registerForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="{{ route('register') }}">
                 @csrf
 
                 <div class="mb-6">
@@ -15,9 +15,7 @@
                         Username
                     </label>
                     <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" name="username" placeholder="Username" required>
-                    @error('username')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                    @enderror
+                    <p id="username_error" class="text-red-500 text-xs italic"></p>
                 </div>
 
                 <div class="mb-4">
@@ -25,9 +23,7 @@
                         Email
                     </label>
                     <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" name="email" placeholder="Email" required>
-                    @error('email')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                    @enderror
+                    <p id="email_error" class="text-red-500 text-xs italic"></p>
                 </div>
 
                 <div class="mb-4">
@@ -35,9 +31,7 @@
                         Password
                     </label>
                     <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" name="password" placeholder="Password" required>
-                    @error('password')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                    @enderror
+                    <p id="password_error" class="text-red-500 text-xs italic"></p>
                 </div>
 
                 <div class="mb-6">
@@ -46,8 +40,6 @@
                     </label>
                     <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm Password" required>
                 </div>
-
-                <!-- Add your email verification field here if needed -->
 
                 <div class="mb-6">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" type="submit">
@@ -61,6 +53,40 @@
             </form>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#registerForm').submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                var formData = $(this).serialize(); // Serialize form data
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'), // Get form action URL
+                    data: formData,
+                    success: function (data) {
+                        // Check if the response has a redirect URL
+                        if (data.redirect) {
+                            // Redirect to the provided URL
+                            window.location.href = data.redirect;
+                        } else {
+                            // Redirect to login page by default if no redirect URL provided
+                            window.location.href = '{{ route('login') }}';
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Parse error response and display error messages
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function (key, value) {
+                            $('#' + key + '_error').html(value);
+                        });
+                    }
+                });
+            });
+            $('input').on('input', function () {
+            var inputId = $(this).attr('id');
+            $('#' + inputId + '_error').html('');
+            });
+        });
+    </script>
 @endsection
-
-

@@ -14,21 +14,25 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $validatedData = $request->validate([
-            'username' => 'required|unique:users',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-        ]);
+{
+    $validatedData = $request->validate([
+        'username' => ['required', 'unique:users', 'regex:/^\S*$/'], // No spaces allowed
+        'email' => ['required', 'email', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
+        'password_confirmation' => ['required', 'same:password'], // Ensure password confirmation matches
+    ], [
+        'username.regex' => 'Username must not contain spaces.',
+        'password.regex' => 'contain at least one uppercase letter, one number, and one special character.',
+    ]);
 
-        $user = new User();
-        $user->username = $validatedData['username'];
-        $user->email = $validatedData['email'];
-        $user->password = Hash::make($validatedData['password']);
-        $user->save();
+    $user = new User();
+    $user->username = $validatedData['username'];
+    $user->email = $validatedData['email'];
+    $user->password = Hash::make($validatedData['password']);
+    $user->save();
 
-        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
-    }
+    return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+}
 
     public function showLoginForm()
     {
