@@ -12,6 +12,9 @@ use App\Http\Requests\RegistrationRequest;
 class AuthController extends Controller
 {
     public function showRegistrationForm(){
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.register');
     }
 
@@ -26,6 +29,9 @@ class AuthController extends Controller
     }
 
     public function showLoginForm(){
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
