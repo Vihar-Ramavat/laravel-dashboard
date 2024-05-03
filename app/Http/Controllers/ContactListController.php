@@ -56,9 +56,9 @@ class ContactListController extends Controller
     }
 
     public function destroy(ContactList $contactList)
-    {
-        $contactList->delete();
+{
+    $contactList->delete();
 
-        return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
-    }
+    return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
+}
 }
