@@ -42,9 +42,41 @@
 </div>
 
 <!-- Add Contact Modal -->
-<div id="addContactModal" class="modal">
-    <!-- Modal Content for Adding Contact -->
-    <!-- Include form fields to add contact details -->
+<div id="addContactModal" class="modal hidden fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50">
+    <div class="modal-dialog bg-white w-1/2 mx-auto mt-10 p-6">
+        <!-- Modal Content for Adding Contact -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-lg font-semibold">Add Contact</h3>
+            </div>
+            <div class="modal-body">
+                <!-- Include form fields to add contact details -->
+                <form action="{{ route('contacts.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" name="first_name" id="first_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" name="last_name" id="last_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" name="phone_number" id="phone_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button onclick="closeAddContactModal()" type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md mr-2 hover:bg-gray-400">Cancel</button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Edit Contact Modal -->
@@ -69,7 +101,10 @@
 <script>
     // Function to open Add Contact Modal
     function openAddContactModal() {
-        // Code to display the Add Contact modal
+        document.getElementById('addContactModal').classList.remove('hidden');
+    }
+    function closeAddContactModal() {
+        document.getElementById('addContactModal').classList.add('hidden');
     }
 
     // Function to open Edit Contact Modal
