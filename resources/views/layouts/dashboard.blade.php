@@ -11,7 +11,7 @@
                 <a href="{{ route('dashboard.home') }}" class="block px-4 transition duration-300">Home</a>
             </li>
             <li class="px-4 py-2 hover:bg-gray-800 rounded">
-                <a href="{{ route('dashboard.Contacts') }}" class="block px-4  transition duration-300">Contacts</a>
+                <a href="{{ route('contacts.index') }}" class="block px-4  transition duration-300">Contacts</a>
             </li>
             <li class="px-4 py-2">
                 <form id="logoutForm" method="POST" action="{{ route('logout') }}">
