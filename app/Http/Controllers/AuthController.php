@@ -35,14 +35,14 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request){    
+    public function login(Request $request) {    
         $credentials = $request->only('username', 'password');
-
+    
         $user = User::where('username', $credentials['username'])->first();
-
+    
         if ($user && Hash::check($credentials['password'], $user->password)) {
             Auth::login($user);
-            return redirect()->intended('/dashboard');
+            return redirect('/dashboard'); // Always redirect to '/dashboard'
         } else {
             return back()->withErrors(['invalid' => 'Invalid username or password'])->withInput();
         }
