@@ -20,15 +20,11 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard.home');
 
-    // Route::get('/dashboard/Contacts', function () {
-    //     return view('Contacts');
-    // })->name('dashboard.Contacts');
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 // Routes for showing modals
 Route::get('/dashboard/contacts', [ContactListController::class, 'index'])->name('contacts.index');
 Route::post('/dashboard/contacts', [ContactListController::class, 'store'])->name('contacts.store');
-Route::get('/dashboard/contacts/{contactList}/edit', [ContactListController::class, 'edit'])->name('contacts.edit');
+Route::get('/dashboard/contacts/{contactList}', [ContactListController::class, 'edit'])->name('contacts.edit');
 Route::put('/dashboard/contacts/{contactList}', [ContactListController::class, 'update'])->name('contacts.update');
 Route::delete('/dashboard/contacts/{contactList}', [ContactListController::class, 'destroy'])->name('contacts.destroy');

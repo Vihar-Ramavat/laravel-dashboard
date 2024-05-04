@@ -27,8 +27,7 @@
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ $contact->email }}</td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ $contact->phone_number }}</td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
-                        <!-- Button to Open Edit Contact Modal -->
-                        <button onclick="openEditContactModal({{ $contact->id }})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit</button>
+                    <button onclick="openEditContactModal({{ json_encode($contact) }})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit</button>
                         <!-- Button to Open Delete Contact Modal -->
                         <button onclick="openDeleteContactModal({{ $contact->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Delete</button>
                         <!-- Button to Open View Contact Modal -->
@@ -86,11 +85,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="text-lg font-semibold">Edit Contact</h3>
-                <button onclick="closeEditContactModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
             </div>
             <div class="modal-body">
                 <!-- Include form fields to edit contact details -->
-                <form id="editContactForm" action="#" method="POST">
+                <form id="editForm" action="#" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">
@@ -192,23 +190,16 @@
     }
 
     // Function to open Edit Contact Modal
-    function openEditContactModal(contactId) {
-        // Fetch contact details via AJAX
-        fetch(`/dashboard/contacts/${contactId}/edit`)
-            .then(response => response.json())
-            .then(data => {
-                // Populate form fields with fetched data
-                document.getElementById('edit_first_name').value = data.first_name;
-                document.getElementById('edit_last_name').value = data.last_name;
-                document.getElementById('edit_email').value = data.email;
-                document.getElementById('edit_phone_number').value = data.phone_number;
-                // Set action URL of form to the appropriate update route
-                document.getElementById('editContactForm').action = `/dashboard/contacts/${contactId}`;
-                // Show the edit modal
-                document.getElementById('editContactModal').classList.remove('hidden');
-            })
-            .catch(error => console.error('Error:', error));
+    function openEditContactModal(contact) {
+        // Set the action URL of the edit form
+        document.getElementById('editForm').action = `/dashboard/contacts/${contact.id}`;
+        document.getElementById('editContactModal').classList.remove('hidden');
+        document.getElementById('edit_first_name').value = contact.first_name;
+        document.getElementById('edit_last_name').value = contact.last_name;
+        document.getElementById('edit_email').value = contact.email;
+        document.getElementById('edit_phone_number').value = contact.phone_number;
     }
+
 
     function closeEditContactModal() {
         document.getElementById('editContactModal').classList.add('hidden');
@@ -226,7 +217,17 @@
 
     // Function to open View Contact Modal
     function openViewContactModal(contactId) {
-        document.getElementById('viewContactModal').classList.remove('hidden');
+        fetch(`/dashboard/contacts/${contactId}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('view_first_name').textContent = data.first_name;
+            document.getElementById('view_last_name').textContent = data.last_name;
+            document.getElementById('view_email').textContent = data.email;
+            document.getElementById('view_phone_number').textContent = data.phone_number;
+
+            document.getElementById('viewContactModal').classList.remove('hidden');
+        })
+        .catch(error => console.error('Error:', error));
     }
     function closeViewContactModal() {
         document.getElementById('viewContactModal').classList.add('hidden');

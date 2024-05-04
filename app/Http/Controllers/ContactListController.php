@@ -22,7 +22,7 @@ class ContactListController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:contact_lists',
+            'email' => 'required|email',
             'phone_number' => 'required',
         ]);
 
@@ -38,7 +38,7 @@ class ContactListController extends Controller
 
     public function edit(ContactList $contactList)
     {
-        return view('contacts.edit', compact('contactList'));
+        return response()->json($contactList);
     }
 
     public function update(Request $request, ContactList $contactList)
@@ -46,19 +46,17 @@ class ContactListController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:contact_lists,email,'.$contactList->id,
+            'email' => 'required|email',
             'phone_number' => 'required',
         ]);
-
         $contactList->update($request->all());
-
-        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully.');
+        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully.');     
     }
 
     public function destroy(ContactList $contactList)
-{
-    $contactList->delete();
+    {
+        $contactList->delete();
 
-    return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
-}
+        return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully.');
+    }
 }
