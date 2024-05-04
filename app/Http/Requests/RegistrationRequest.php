@@ -35,6 +35,7 @@ class RegistrationRequest extends FormRequest
             'username.regex' => 'Username must not contain spaces.',
             'password.regex' => 'Password must contain at least one uppercase letter, one number, and one special character.',
             'email.regex' => 'Invalid email address.',
+            'password_confirmation.same' => 'Password confirmation does not match.',
         ];
     }
 }
