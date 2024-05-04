@@ -23,7 +23,7 @@ class RegistrationRequest extends FormRequest
     {
         return [
             'username' => ['required', 'unique:users', 'regex:/^\S*$/'], // No spaces allowed
-            'email' => ['required', 'email', 'unique:users', 'regex:/^(?=.{1,256}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/'],
+            'email' => ['required', 'email', 'regex:/^(?=.{1,256}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/'],
             'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
             'password_confirmation' => ['required', 'same:password'], // Ensure password confirmation matches
         ];  
