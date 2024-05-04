@@ -27,7 +27,8 @@
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ $contact->email }}</td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ $contact->phone_number }}</td>
                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
-                    <button onclick="openEditContactModal({{ json_encode($contact) }})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit</button>
+                        <!-- Button to Open Edit Contact Modal -->
+                        <button onclick="openEditContactModal({{ json_encode($contact) }})" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit</button>
                         <!-- Button to Open Delete Contact Modal -->
                         <button onclick="openDeleteContactModal({{ $contact->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Delete</button>
                         <!-- Button to Open View Contact Modal -->
@@ -50,27 +51,32 @@
             </div>
             <div class="modal-body">
                 <!-- Include form fields to add contact details -->
-                <form action="{{ route('contacts.store') }}" method="POST">
+                <form id="addForm" action="{{ route('contacts.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input type="text" name="first_name" id="first_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="text" name="first_name" id="first_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="first_name_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input type="text" name="last_name" id="last_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="text" name="last_name" id="last_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="last_name_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="email" name="email" id="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="email_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" name="phone_number" id="phone_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="number" name="phone_number" id="phone_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="phone_number_error" class="text-red-500"></span>
                     </div>
+                    <div id="error_message" class="text-red-500"></div>
                     <div class="mt-4 flex justify-end">
                         <button onclick="closeAddContactModal()" type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md mr-2 hover:bg-gray-400">Cancel</button>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                        <button onclick="validateForm('add')" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
                     </div>
                 </form>
             </div>
@@ -93,23 +99,28 @@
                     @method('PUT')
                     <div class="mb-4">
                         <label for="edit_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                        <input type="text" name="first_name" id="edit_first_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="text" name="first_name" id="edit_first_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="edit_first_name_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="edit_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                        <input type="text" name="last_name" id="edit_last_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="text" name="last_name" id="edit_last_name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="edit_last_name_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="edit_email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="edit_email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="email" name="email" id="edit_email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="edit_email_error" class="text-red-500"></span>
                     </div>
                     <div class="mb-4">
                         <label for="edit_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" name="phone_number" id="edit_phone_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" required>
+                        <input type="number" name="phone_number" id="edit_phone_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <span id="edit_phone_number_error" class="text-red-500"></span>
                     </div>
+                    <div id="edit_error_message" class="text-red-500"></div>
                     <div class="mt-4 flex justify-end">
                         <button onclick="closeEditContactModal()" type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md mr-2 hover:bg-gray-400">Cancel</button>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
+                        <button onclick="validateForm('edit')" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Save</button>
                     </div>
                 </form>
             </div>
@@ -181,6 +192,83 @@
 
 <!-- JavaScript to handle modals -->
 <script>
+    function validateForm(formType) {
+        let firstNameInput = document.getElementById(formType === 'add' ? 'first_name' : 'edit_first_name');
+        let lastNameInput = document.getElementById(formType === 'add' ? 'last_name' : 'edit_last_name');
+        let emailInput = document.getElementById(formType === 'add' ? 'email' : 'edit_email');
+        let phoneNumberInput = document.getElementById(formType === 'add' ? 'phone_number' : 'edit_phone_number');
+
+        // Get the corresponding error elements
+        let firstNameError = document.getElementById(formType === 'add' ? 'first_name_error' : 'edit_first_name_error');
+        let lastNameError = document.getElementById(formType === 'add' ? 'last_name_error' : 'edit_last_name_error');
+        let emailError = document.getElementById(formType === 'add' ? 'email_error' : 'edit_email_error');
+        let phoneNumberError = document.getElementById(formType === 'add' ? 'phone_number_error' : 'edit_phone_number_error');
+
+        // Clear previous error messages when typing
+        firstNameInput.addEventListener('input', () => { firstNameError.innerHTML = ''; });
+        lastNameInput.addEventListener('input', () => { lastNameError.innerHTML = ''; });
+        emailInput.addEventListener('input', () => { emailError.innerHTML = ''; });
+        phoneNumberInput.addEventListener('input', () => { phoneNumberError.innerHTML = ''; });
+
+        // Extract input values
+        let firstName = firstNameInput.value.trim();
+        let lastName = lastNameInput.value.trim();
+        let email = emailInput.value.trim();
+        let phoneNumber = phoneNumberInput.value.trim();
+
+        // Reset previous error messages
+        document.getElementById(formType === 'add' ? 'error_message' : 'edit_error_message').innerHTML = '';
+
+        let isValid = true;
+
+        // Check first name
+        if (firstName === '') {
+            firstNameError.innerHTML = 'First Name is required';
+            isValid = false;
+        }
+
+        // Check last name
+        if (lastName === '') {
+            lastNameError.innerHTML = 'Last Name is required';
+            isValid = false;
+        }
+
+        // Check email
+        if (email === '') {
+            emailError.innerHTML = 'Email is required';
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            emailError.innerHTML = 'Enter a valid email address';
+            isValid = false;
+        }
+
+        // Check phone number
+        if (phoneNumber === '') {
+            phoneNumberError.innerHTML = 'Phone Number is required';
+            isValid = false;
+        } else if (!validatePhoneNumber(phoneNumber)) {
+            phoneNumberError.innerHTML = 'Enter a valid phone number';
+            isValid = false;
+        }
+
+        // Submit the form if all inputs are valid
+        if (isValid) {
+            document.getElementById(formType === 'add' ? 'addForm' : 'editForm').submit();
+        }
+    }
+
+    // Email validation function
+    function validateEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    // Phone number validation function
+    function validatePhoneNumber(phoneNumber) {
+        const re = /^\d{10}$/;
+        return re.test(phoneNumber);
+    }
+
     // Function to open Add Contact Modal
     function openAddContactModal() {
         document.getElementById('addContactModal').classList.remove('hidden');
