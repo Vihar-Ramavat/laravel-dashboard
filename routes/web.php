@@ -17,7 +17,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $user = Auth::user(); // Get the authenticated user
+        return view('dashboard', ['user' => $user]); // Pass the user to the view
     })->name('dashboard.home');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
