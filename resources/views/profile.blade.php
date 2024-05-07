@@ -35,8 +35,8 @@
             @method('PUT')
 
             <div class="mb-4">
-                <label for="profile_picture" class="block text-gray-700 text-sm font-bold mb-2">Profile Picture</label>
-                <input type="file" id="profile_picture" name="profile_picture" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="profile_photo" class="block text-gray-700 text-sm font-bold mb-2">Profile Picture</label>
+                <input type="file" id="profile_photo" name="profile_photo" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
 
             <div class="mb-4">
@@ -106,7 +106,7 @@ saveProfileBtn.addEventListener('click', () => {
     console.log([...formData.entries()]);
     // Submit the form data using fetch API
     fetch('{{ route("profile.update") }}', {
-        method: 'PUT',
+        method: 'POST',
         body: formData,
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'

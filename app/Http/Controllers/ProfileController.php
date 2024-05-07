@@ -37,6 +37,7 @@ class ProfileController extends Controller
     // Prepare the data to update
     $updateData = [];
 
+    // Check if 'first_name' is present in validated data, then add it to updateData
     if (isset($validatedData['first_name'])) {
         $updateData['first_name'] = $validatedData['first_name'];
 
@@ -52,7 +53,6 @@ class ProfileController extends Controller
     }
 
     // Update the user profile data
-    $user->fill($updateData); 
     $user->update($updateData);
 
     // Redirect back with a success message
