@@ -26,6 +26,10 @@ class RegistrationRequest extends FormRequest
             'email' => ['required', 'email', 'regex:/^(?=.{1,256}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/'],
             'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'],
             'password_confirmation' => ['required', 'same:password'],
+            'profile_photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'first_name' => 'string|max:255',
+            'last_name' => 'string|max:255',
+            'phone_number' => 'string|max:10',
         ];  
     }
     
