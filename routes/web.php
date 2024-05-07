@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactListController;
+use App\Http\Controllers\ProfileController;
 
 
 Route::get('/', function () {
@@ -29,4 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/contacts/{contactList}', [ContactListController::class, 'edit'])->name('contacts.edit');
     Route::put('/dashboard/contacts/{contactList}', [ContactListController::class, 'update'])->name('contacts.update');
     Route::delete('/dashboard/contacts/{contactList}', [ContactListController::class, 'destroy'])->name('contacts.destroy');
+
+    Route::get('/dashboard/profile', [ProfileController::class, 'show'])->name('profile.show');
+
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
