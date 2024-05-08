@@ -56,6 +56,16 @@ return [
             'throw' => false,
         ],
 
+        
+
+        'public_folder' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
     ],
 
     /*

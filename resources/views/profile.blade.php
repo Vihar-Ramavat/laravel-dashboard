@@ -16,7 +16,7 @@
                 <div class="flex items-center justify-center mb-6">
                     <!-- Profile Picture -->
                     @if (Auth::user()->profile_photo)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Picture" class="rounded-full h-24 w-24">
+                        <img src="{{ asset('/' . Auth::user()->profile_photo) }}" alt="Profile Picture" class="rounded-full h-24 w-24">
                     @else
                         <div class="rounded-full h-24 w-24 flex items-center justify-center bg-gradient-to-r from-purple-400 to-pink-500 text-white text-4xl shadow-md">
                             {{ substr(Auth::user()->username, 0,1) }}

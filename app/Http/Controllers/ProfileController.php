@@ -44,7 +44,7 @@ class ProfileController extends Controller
             $updateData['phone_number'] = $validatedData['phone_number'];
         }
         if ($request->hasFile('profile_photo')) {
-            $updateData['profile_photo'] = $validatedData['profile_photo']->store('profile_photos', 'public');
+            $updateData['profile_photo'] = $validatedData['profile_photo']->store('profile_photos', 'public_folder');
         }
 
         // Update the user profile data
