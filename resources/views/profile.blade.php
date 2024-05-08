@@ -88,39 +88,48 @@
         </div>
 
         <!-- Change Password Form -->
-        <div id="changePasswordFormContainer" class="hidden bg-white shadow-lg rounded-lg overflow-hidden mt-4">
-            <div class="px-6 py-4 bg-gray-800">
-                <h2 class="text-3xl font-bold text-white">Change Password</h2>
-            </div>
-            <form id="changePasswordForm" action="{{ route('profile.updatePassword') }}" method="POST" class="p-6">
-                @csrf
-
-                <!-- Current Password Input -->
-                <div class="mb-4">
-                    <label for="current_password" class="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
-                    <input type="password" id="current_password" name="current_password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <!-- New Password Input -->
-                <div class="mb-4">
-                    <label for="new_password" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-                    <input type="password" id="new_password" name="new_password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <!-- Confirm New Password Input -->
-                <div class="mb-4">
-                    <label for="new_password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password</label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
-
-                <!-- Save and Cancel Buttons -->
-                <div class="flex items-center justify-between">
-                    <button id="savePasswordBtn" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">Save</button>
-                    <button id="cancelChangePasswordBtn" type="button" class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">Cancel</button>
-                </div>
-            </form>
-        </div>
+<div id="changePasswordFormContainer" class="hidden bg-white shadow-lg rounded-lg overflow-hidden mt-4">
+    <div class="px-6 py-4 bg-gray-800">
+        <h2 class="text-3xl font-bold text-white">Change Password</h2>
     </div>
+    <form id="changePasswordForm" action="{{ route('profile.updatePassword') }}" method="POST" class="p-6">
+        @csrf
+        @method ('PUT')
+
+        <!-- Current Password Input -->
+        <div class="mb-4">
+            <label for="current_password" class="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
+            <input type="password" id="current_password" name="current_password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('current_password')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- New Password Input -->
+        <div class="mb-4">
+            <label for="new_password" class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
+            <input type="password" id="new_password" name="new_password" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('new_password')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Confirm New Password Input -->
+        <div class="mb-4">
+            <label for="new_password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password</label>
+            <input type="password" id="new_password_confirmation" name="new_password_confirmation" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('new_password')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Save and Cancel Buttons -->
+        <div class="flex items-center justify-between">
+            <button id="savePasswordBtn" type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">Save</button>
+            <button id="cancelChangePasswordBtn" type="button" class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">Cancel</button>
+        </div>
+    </form>
+</div>
 
     <!-- Scripts -->
     <script>
