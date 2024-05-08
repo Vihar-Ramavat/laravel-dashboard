@@ -39,6 +39,9 @@
             <div class="text-center text-gray-500 text-sm">
                 <p>Don't have an account? <a class="text-indigo-500 hover:text-indigo-600" href="{{ route('register') }}">Sign up here</a></p>
             </div>
+            <div class="text-center text-gray-500 text-sm mt-2">
+    <a href="{{ route('password.request') }}" class="text-indigo-500 hover:text-indigo-600">Forgot your password?</a>
+</div>
         </div>
     </div>
 
